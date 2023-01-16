@@ -4,13 +4,18 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.ColorUIResource;
+
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.spec.ECField;
 
 public class Main {
    static Neo4J connection = new Neo4J();
-
+   private static final int WIDTH = 510;
+   private static final int HIGHT = 350;
    public static void main(String[] args) {
       //showCategories();
       selectSuggestionMethod();
@@ -61,6 +66,14 @@ public class Main {
 
       frame.add(panel);
       
+      frame.setBackground(Color.GRAY);
+      panel.setBackground(Color.gray);
+      suggestMovieButton.setForeground(Color.BLACK);
+      suggestCategoryButton.setForeground(Color.BLACK);
+
+      // posiziona il frame al centro del monitor
+      frame.setResizable(false);
+      frame.setVisible(true);
       frame.setVisible(true);
    }
 
@@ -70,11 +83,13 @@ public class Main {
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setSize(800, 500);
       frame.setLocationRelativeTo(null);
+      frame.setBackground(Color.gray);
 
       final JPanel panel = new JPanel();
       panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
       panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-      
+      panel.setBackground(Color.gray);
+
       List < String > categories = collectCategories();
       DefaultListModel < String > categoriesListModel = new DefaultListModel < > ();
       for (String category: categories) {
@@ -208,11 +223,13 @@ public class Main {
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setSize(800, 500);
       frame.setLocationRelativeTo(null);
+      frame.setBackground(Color.gray);
 
       final JPanel panel = new JPanel();
       panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
       panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-      
+      panel.setBackground(Color.gray);
+
       final List < String > movies = collectMovies();
       DefaultListModel < String > moviesListModel = new DefaultListModel < > ();
       for (String movie: movies) {
@@ -223,7 +240,7 @@ public class Main {
       
 
       final JTextField searchBar = new JTextField();
-      searchBar.setMaximumSize(new Dimension(1300, 25));
+      searchBar.setMaximumSize(new Dimension(200, 25));
       
       panel.add(searchBar);
       panel.add(scrollPane);
@@ -382,10 +399,12 @@ public class Main {
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setSize(800, 500);
       frame.setLocationRelativeTo(null);
+      frame.setBackground(Color.gray);
 
       final JPanel panel = new JPanel();
       panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
       panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+      panel.setBackground(Color.gray);
 
       JLabel label = new JLabel(descriptionRetrieved);
       StringBuilder strBuilder = new StringBuilder();
