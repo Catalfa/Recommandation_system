@@ -1,4 +1,5 @@
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -6,8 +7,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.ColorUIResource;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.spec.ECField;
@@ -24,14 +23,28 @@ public class Main {
    //Main menu
    private static void selectSuggestionMethod()
    {
-      final JFrame frame = new JFrame("Movie Suggestion Menu");
+      // Creazione della finestra principale
+      final JFrame frame = new JFrame("Homepage");
+      frame.setSize(600, 400);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setSize(300, 200);
-      frame.setLocationRelativeTo(null);
 
-      final JPanel panel = new JPanel();
-      panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-      panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+      // Creazione del layout
+      BorderLayout layout = new BorderLayout();
+      frame.setLayout(layout);
+
+      // Creazione del pannello di benvenuto
+      JPanel welcomePanel = new JPanel();
+      welcomePanel.setBackground(Color.LIGHT_GRAY);
+      JLabel welcomeLabel = new JLabel("¿ Que Película ?");
+      welcomeLabel.setFont(new Font("Arial", Font.BOLD, 35));
+  
+      welcomePanel.add(welcomeLabel);
+      frame.add(welcomePanel, BorderLayout.NORTH);
+
+      // Creazione del pannello del contenuto
+      JPanel contentPanel = new JPanel();
+      contentPanel.setBackground(Color.WHITE);
+      frame.add(contentPanel, BorderLayout.CENTER);
 
       JButton suggestCategoryButton = new JButton("Suggest by Category");
       suggestCategoryButton.addActionListener(new ActionListener() {
@@ -41,8 +54,8 @@ public class Main {
             showCategories();
          }
       });
-      panel.add(suggestCategoryButton);
-      panel.add(Box.createHorizontalGlue());
+      contentPanel.add(suggestCategoryButton);
+      //panel.add(Box.createHorizontalGlue());
 
       JButton suggestMovieButton = new JButton("Suggest by movie");
       suggestMovieButton.addActionListener(new ActionListener() {
@@ -52,28 +65,35 @@ public class Main {
             showMovies();
          }
       });
-      panel.add(suggestMovieButton);
-      panel.add(Box.createHorizontalGlue());
+      contentPanel.add(suggestMovieButton);
 
-      JButton exitButton = new JButton("Exit");
-      exitButton.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            Neo4J.terminate();
-         }
-      });
-      panel.add(exitButton);
+      contentPanel.setLayout(new GridBagLayout());
+      GridBagConstraints c = new GridBagConstraints();
 
-      frame.add(panel);
-      
-      frame.setBackground(Color.GRAY);
-      panel.setBackground(Color.gray);
-      suggestMovieButton.setForeground(Color.BLACK);
-      suggestCategoryButton.setForeground(Color.BLACK);
+      c.weightx = 0;
+      c.weighty = 0;
+      c.anchor = GridBagConstraints.CENTER;
 
-      // posiziona il frame al centro del monitor
-      frame.setResizable(false);
-      frame.setVisible(true);
+      c.gridx = -1;
+      c.gridy = 1;
+      contentPanel.add(suggestCategoryButton, c);
+
+      c.gridx = 1;
+      c.gridy = 1;
+      contentPanel.add(suggestMovieButton, c);
+
+      // Creazione del pannello del footer
+      JPanel footerPanel = new JPanel();
+      footerPanel.setBackground(Color.LIGHT_GRAY);
+      JLabel footerLabel = new JLabel("Copyright © 2023 - Catalfamo Rosario");
+      footerLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+      footerPanel.add(footerLabel);
+      frame.add(footerPanel, BorderLayout.SOUTH);
+
+
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setLocationRelativeTo(null);
+      // Visualizzazione della finestra
       frame.setVisible(true);
    }
 
@@ -116,12 +136,13 @@ public class Main {
             }
             final JList < String > suggestedMovies = new JList < > (newStringListModel);
             JScrollPane scrollPane = new JScrollPane(suggestedMovies);
-            panel.add(scrollPane);
+            
 
             final JTextField searchBar = new JTextField();
-            searchBar.setMaximumSize(new Dimension(1300, 25));
+            searchBar.setMaximumSize(new Dimension(250, 25));
             
             panel.add(searchBar);
+            panel.add(scrollPane);
             searchBar.getDocument().addDocumentListener(new DocumentListener() {
                public void changedUpdate(DocumentEvent e) {
                   filterList();
