@@ -1,4 +1,4 @@
-# Sibi_202223
+# Recommendation_System
 
 Visit the "memory.pdf" for in the "presentation" folder for more detailed informations.
 
