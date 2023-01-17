@@ -174,10 +174,11 @@ public class Main {
             seeMoreButton.addActionListener(new ActionListener() {
                @Override
                public void actionPerformed(ActionEvent e) {
+                  frame.setVisible(false);
                   String selectedMovie = suggestedMovies.getSelectedValue();
                   String descriptionRetrieved = retrieveDescription(selectedMovie);
-                  frame.setVisible(false);
-                  showMovieDescription(descriptionRetrieved);
+                  
+                  showMovieDescription(descriptionRetrieved,selectedMovie);
                }
             });
             panel.add(seeMoreButton);
@@ -353,9 +354,8 @@ public class Main {
                public void actionPerformed(ActionEvent e) {
                   String selectedMovie = moviesList.getSelectedValue();
                   String descriptionRetrieved = retrieveDescription(selectedMovie);
-
-                  //frame.setVisible(false);
-                  showMovieDescription(descriptionRetrieved);
+                  frame.setVisible(false);
+                  showMovieDescription(descriptionRetrieved, selectedMovie);
                }
             });
             panel.add(seeMoreButton);
@@ -414,10 +414,10 @@ public class Main {
    }
 
    //Movie description
-   private static void showMovieDescription(String descriptionRetrieved) {
-      final JFrame frame = new JFrame("Movie Suggestion");
+   private static void showMovieDescription(String descriptionRetrieved, String title) {
+      final JFrame frame = new JFrame("Movie Suggestion: "+title);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setSize(400, 600);
+      frame.setSize(400, 200);
       frame.setLocationRelativeTo(null);
       frame.setBackground(Color.gray);
 
