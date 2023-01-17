@@ -15,8 +15,9 @@ import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 
+
 public class Neo4J {
-    static Driver driver = GraphDatabase.driver("neo4j+s://06d5deaf.databases.neo4j.io", AuthTokens.basic("neo4j", "5Jsnu6Mcr2dABF7YJkOtuSi1aBZm6FSWehJ-yVmrP2E"));
+    static Driver driver = GraphDatabase.driver("neo4j+s://665b323b.databases.neo4j.io", AuthTokens.basic("neo4j", "PGb8DYmREVYIvNCQPF190wVt7rWID2n_VATFkrGJAEo"));
     static Session session = driver.session();
 
     //Get all the categories in the DB
