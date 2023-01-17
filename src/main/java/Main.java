@@ -98,7 +98,8 @@ public class Main {
    }
 
    //Suggestion selecting a category
-   private static void showCategories() {
+   private static void showCategories()
+   {
       final JFrame frame = new JFrame("Movie Suggestion");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setSize(800, 500);
@@ -239,7 +240,8 @@ public class Main {
    }
 
    //Suggestion selecting a movie
-   private static void showMovies() {
+   private static void showMovies()
+   {
       final JFrame frame = new JFrame("Movie Suggestion");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setSize(800, 500);
@@ -302,8 +304,9 @@ public class Main {
          public void actionPerformed(ActionEvent e) {
             String selectedMovie = moviesList.getSelectedValue();
             String movieCategory = getMovieCategory(selectedMovie);
-            final List < String > moviesRetrieved = requestSuggestion(movieCategory);
-            frame.setTitle(movieCategory + " Movies");
+            String movieDirector = getMovieDirector(selectedMovie);
+            final List < String > moviesRetrieved = requestSuggestion(movieCategory,movieDirector);
+            frame.setTitle("Suggestion: "+selectedMovie);
             panel.removeAll();
 
             //create a new JList with the updated list of strings
@@ -313,12 +316,12 @@ public class Main {
             }
             final JList < String > suggestedMovies = new JList < > (newStringListModel);
             JScrollPane scrollPane = new JScrollPane(suggestedMovies);
-            panel.add(scrollPane);
-
+            
             final JTextField searchBar = new JTextField();
-            searchBar.setMaximumSize(new Dimension(1300, 25));
+            searchBar.setMaximumSize(new Dimension(250, 25));
 
             panel.add(searchBar);
+            panel.add(scrollPane);
             searchBar.getDocument().addDocumentListener(new DocumentListener() {
                public void changedUpdate(DocumentEvent e) {
                   filterList();
@@ -437,8 +440,9 @@ public class Main {
             backButton.addActionListener(new ActionListener() {
                @Override
                public void actionPerformed(ActionEvent e) {
-                  
+                  showMovies();
                   frame.setVisible(false);
+                  
                   
                }
             });
@@ -478,8 +482,18 @@ public class Main {
       return connection.getMovieCategory(movieTitle);
    }
 
+   //GET director starting from movie
+   private static String getMovieDirector(String movieTitle) {
+      return connection.getMovieDirector(movieTitle);
+   }
+
    //GET reccomendation
    private static List < String > requestSuggestion(String category) {
+      return connection.suggestMovie(category);
+   }
+
+   //GET reccomendation
+   private static List < String > requestSuggestion(String category, String director) {
       return connection.suggestMovie(category);
    }
 }

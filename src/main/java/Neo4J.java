@@ -5,6 +5,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.JOptionPane;
+
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
@@ -67,13 +70,57 @@ public class Neo4J {
         return record.get("category").asString();
     }
 
+    public String getMovieDirector(String movieTitle)
+    {
+        Result result = session.run("MATCH (d:director)<-[directed_by]-(:movie{title: \"" + movieTitle + "\"}) RETURN d.director AS director");
+        Record record=null;
+        try {
+            record = result.next();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: no recommendation found.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+
+        return record.get("director").asString();
+    }
+
+    //Query for suggestion based on selection
+    public List<String> suggestMovie(String category,String director)
+    {
+        List<String> movies = new ArrayList<String>();
+        List<Integer> rating = new ArrayList<Integer>();
+
+        Result result = session.run("MATCH (f:movie{director: \"" + director + "\"})-[listed_in]->(g:genre {listed_in: \"" + category + "\"}) RETURN f.title AS title, f.rating AS stars ORDER BY f.title ");
+        while (result.hasNext()) {
+            Record record = result.next();
+            movies.add(record.get("title").asString());
+            rating.add(record.get("rating", 0));
+        }
+
+        //Sorting based on rating of the movies
+        final Map<String, Integer> MoviesStarsMap = new HashMap<>();
+        for(int i = 0; i < movies.size(); i++) {
+            MoviesStarsMap.put(movies.get(i), rating.get(i));
+        }
+        Collections.sort(movies, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return MoviesStarsMap.get(o1) - MoviesStarsMap.get(o2);
+            }
+        });
+
+        return movies;
+    }
+
+
+
     //Query for suggestion based on selection
     public List<String> suggestMovie(String category)
     {
         List<String> movies = new ArrayList<String>();
         List<Integer> rating = new ArrayList<Integer>();
 
-        Result result = session.run("MATCH (f:movie)-[listed_in]->(g:genre {listed_in: \"" + category + "\"}) RETURN f.title AS title, f.rating AS stars");
+        Result result = session.run("MATCH (f:movie)-[listed_in]->(g:genre {listed_in: \"" + category + "\"}) RETURN f.title AS title, f.rating AS stars ORDER BY f.director");
         while (result.hasNext()) {
             Record record = result.next();
             movies.add(record.get("title").asString());
