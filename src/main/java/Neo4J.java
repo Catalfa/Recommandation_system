@@ -61,7 +61,7 @@ public class Neo4J {
         return movies;
     }
 
-    //From a book, get it's category
+    //From a movie, get it's category
     public String getMovieCategory(String movieTitle)
     {
         Result result = session.run("MATCH (g:genre)<-[listed_in]-(:movie{title: \"" + movieTitle + "\"}) RETURN g.listed_in AS category");

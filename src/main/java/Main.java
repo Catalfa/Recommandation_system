@@ -5,16 +5,12 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.plaf.ColorUIResource;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.security.spec.ECField;
 
 public class Main {
    static Neo4J connection = new Neo4J();
-   private static final int WIDTH = 510;
-   private static final int HIGHT = 350;
    public static void main(String[] args) {
       //showCategories();
       selectSuggestionMethod();
@@ -25,7 +21,7 @@ public class Main {
    {
       // Creazione della finestra principale
       final JFrame frame = new JFrame("Homepage");
-      frame.setSize(600, 400);
+      frame.setSize(400, 200);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
       // Creazione del layout
@@ -47,6 +43,7 @@ public class Main {
       frame.add(contentPanel, BorderLayout.CENTER);
 
       JButton suggestCategoryButton = new JButton("Suggest by Category");
+      suggestCategoryButton.setSize(25, 10);
       suggestCategoryButton.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
@@ -102,7 +99,7 @@ public class Main {
    {
       final JFrame frame = new JFrame("Movie Suggestion");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setSize(800, 500);
+      frame.setSize(400, 600);
       frame.setLocationRelativeTo(null);
       frame.setBackground(Color.gray);
 
@@ -179,8 +176,7 @@ public class Main {
                public void actionPerformed(ActionEvent e) {
                   String selectedMovie = suggestedMovies.getSelectedValue();
                   String descriptionRetrieved = retrieveDescription(selectedMovie);
-
-                  //frame.setVisible(false);
+                  frame.setVisible(false);
                   showMovieDescription(descriptionRetrieved);
                }
             });
@@ -244,7 +240,7 @@ public class Main {
    {
       final JFrame frame = new JFrame("Movie Suggestion");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setSize(800, 500);
+      frame.setSize(400, 600);
       frame.setLocationRelativeTo(null);
       frame.setBackground(Color.gray);
 
@@ -421,7 +417,7 @@ public class Main {
    private static void showMovieDescription(String descriptionRetrieved) {
       final JFrame frame = new JFrame("Movie Suggestion");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setSize(800, 500);
+      frame.setSize(400, 600);
       frame.setLocationRelativeTo(null);
       frame.setBackground(Color.gray);
 
