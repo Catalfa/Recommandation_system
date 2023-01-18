@@ -87,7 +87,7 @@ public class Main {
       footerPanel.add(footerLabel);
       frame.add(footerPanel, BorderLayout.SOUTH);
 
-
+      frame.setResizable(false);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setLocationRelativeTo(null);
       // Visualizzazione della finestra
@@ -231,9 +231,9 @@ public class Main {
          }
       });
       panel.add(exitButton);
-
+      frame.setResizable(false);
       frame.add(panel);
-      frame.setVisible(true);
+      frame.setVisible(false);
    }
 
    //Suggestion selecting a movie
@@ -408,7 +408,7 @@ public class Main {
          }
       });
       panel.add(exitButton);
-
+      frame.setResizable(false);
       frame.add(panel);
       frame.setVisible(true);
    }
